@@ -1,0 +1,70 @@
+2026-04-12 14:25:47.855494-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS conta (id INT AUTO_INCREMENT PRIMARY KEY,[*],\000d\000anome VARCHAR(100) NOT NULL)"; expected "identifier"; SQL statement:
+CREATE TABLE IF NOT EXISTS conta (id INT AUTO_INCREMENT PRIMARY KEY,,
+nome VARCHAR(100) NOT NULL) [42001-224]
+2026-04-12 14:32:05.430020-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS cartaocredito(\000d\000aid INT AUTO_INCREMENT PRIMARY KEY,\000d\000anome VARCHAR(100) NOT NULL,\000d\000alimite DECIMAL(10,2),\000d\000adia_fechamento DATE,\000d\000adia_vencimento DATE,\000d\000abanco_id INT NOT NULL,\000d\000aFOREIGN KEY (banco_id) [*]REFERENCE conta(id)\000d\000a)"; expected "INDEX, REFERENCES"; SQL statement:
+CREATE TABLE IF NOT EXISTS cartaocredito(
+id INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+limite DECIMAL(10,2),
+dia_fechamento DATE,
+dia_vencimento DATE,
+banco_id INT NOT NULL,
+FOREIGN KEY (banco_id) REFERENCE conta(id)
+) [42001-224]
+2026-04-12 14:36:12.201767-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS categoria(\000d\000aid INT AUTO_INCREMENT PRIMARY KEY,\000d\000anome VARCHAR(100) NOT NULL,\000d\000atipo VARCHAR(50) [*]NOTNULL\000d\000a)"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, DEFAULT, GENERATED, ON UPDATE, NOT NULL, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE IF NOT EXISTS categoria(
+id INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+tipo VARCHAR(50) NOTNULL
+) [42001-224]
+2026-04-12 14:46:11.700366-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+CREATE TABLE IF NOT EXISTS movimentacao (
+id INT AUTO_INCREMENT PRIMARY KEY,
+saida_id INT NOT NULL,
+entrada_id INT NOT NULL,
+FOREIGN KEY (entrada_id, saida_id) REFERENCES conta(id)
+) [21002-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.command.ddl.AlterTableAddConstraint.tryUpdate(AlterTableAddConstraint.java:223)
+	at org.h2.command.ddl.AlterTableAddConstraint.update(AlterTableAddConstraint.java:74)
+	at org.h2.command.ddl.AlterTable.update(AlterTable.java:46)
+	at org.h2.command.ddl.CommandWithColumns.createConstraints(CommandWithColumns.java:83)
+	at org.h2.command.ddl.CreateTable.update(CreateTable.java:134)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:169)
+	at org.h2.command.Command.executeUpdate(Command.java:256)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:262)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1345)
+	at org.h2.server.web.WebApp.query(WebApp.java:1143)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1109)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1096)
+	at org.h2.server.web.WebThread.process(WebThread.java:190)
+	at org.h2.server.web.WebThread.run(WebThread.java:103)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+2026-04-12 14:53:16.696325-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Cannot drop "CONTA" because "CONSTRAINT_A5D, CONSTRAINT_E4, CONSTRAINT_55, CONSTRAINT_A5" depends on it; SQL statement:
+DROP TABLE conta [90107-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:644)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.command.ddl.DropTable.prepareDrop(DropTable.java:108)
+	at org.h2.command.ddl.DropTable.update(DropTable.java:133)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:169)
+	at org.h2.command.Command.executeUpdate(Command.java:256)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:262)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1345)
+	at org.h2.server.web.WebApp.query(WebApp.java:1143)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1109)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1096)
+	at org.h2.server.web.WebThread.process(WebThread.java:190)
+	at org.h2.server.web.WebThread.run(WebThread.java:103)
+	at java.base/java.lang.Thread.run(Thread.java:842)
