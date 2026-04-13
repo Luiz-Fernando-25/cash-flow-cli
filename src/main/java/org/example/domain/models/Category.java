@@ -1,5 +1,6 @@
 package org.example.domain.models;
 
+import org.example.domain.enums.CategoryType;
 import org.example.domain.enums.TransactionType;
 
 import java.util.Objects;
@@ -7,9 +8,9 @@ import java.util.Objects;
 public class Category {
     private Integer id;
     private String name;
-    private TransactionType type;
+    private CategoryType type;
 
-    public Category(String name, TransactionType type) {
+    public Category(String name, CategoryType type) {
         this.name = name;
         this.type = type;
     }
@@ -51,11 +52,11 @@ public class Category {
         this.name = name;
     }
 
-    public TransactionType getType() {
+    public CategoryType getType() {
         return type;
     }
 
-    public void setType(TransactionType type) {
+    public void setType(CategoryType type) {
         this.type = type;
     }
 }

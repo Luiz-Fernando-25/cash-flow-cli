@@ -7,12 +7,12 @@ public class CreditCard {
     private Integer id;
     private String name;
     private BigDecimal limit;
-    private int closigDay;
+    private int closingDay;
     private int dueDate;
-    private Bank bank;
+    private AccountBank bank;
 
 
-    public CreditCard(String name, Bank bank) {
+    public CreditCard(String name, AccountBank bank) {
         this.name = name;
         this.bank = bank;
     }
@@ -35,7 +35,7 @@ public class CreditCard {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", limit=" + limit +
-                ", closigDay=" + closigDay +
+                ", closingDay=" + closingDay +
                 ", dueDate=" + dueDate +
                 ", bank=" + bank +
                 '}';
@@ -65,12 +65,12 @@ public class CreditCard {
         this.limit = limit;
     }
 
-    public int getClosigDay() {
-        return closigDay;
+    public int getClosingDay() {
+        return closingDay;
     }
 
-    public void setClosigDay(int closigDay) {
-        this.closigDay = closigDay;
+    public void setClosingDay(int closingDay) {
+        this.closingDay = closingDay;
     }
 
     public int getDueDate() {
@@ -81,11 +81,11 @@ public class CreditCard {
         this.dueDate = dueDate;
     }
 
-    public Bank getBank() {
+    public AccountBank getBank() {
         return bank;
     }
 
-    public void setBank(Bank bank) {
+    public void setBank(AccountBank bank) {
         this.bank = bank;
     }
 }

@@ -1,7 +1,8 @@
 package org.example;
 
 import org.example.config.database.DatabaseSetup;
-import org.example.domain.models.Bank;
+import org.example.domain.models.AccountBank;
+import org.example.domain.models.AccountBank;
 import org.h2.tools.Server;
 
 import java.math.BigDecimal;
@@ -16,7 +17,7 @@ public class Main {
 
         BigDecimal deposito = new BigDecimal("50.00");
 
-        Bank nuBank = new Bank("nubank");
+        AccountBank nuBank = new AccountBank("nubank");
         System.out.println(nuBank);
         nuBank.deposit(deposito);
         System.out.println(nuBank);

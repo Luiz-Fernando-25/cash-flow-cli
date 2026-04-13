@@ -1,17 +1,17 @@
 package org.example.domain.models;
 
-import org.example.domain.interfaces.InterfaceAccount;
+import org.example.domain.interfaces.Account;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public abstract class AbstractAccount implements InterfaceAccount {
+public abstract class AbstractAccount implements Account {
     protected Integer id;
-    protected String accontName;
+    protected String accountName;
     protected BigDecimal balance = BigDecimal.ZERO;
 
-    public AbstractAccount(String accontName) {
-        this.accontName = accontName;
+    public AbstractAccount(String accountName) {
+        this.accountName = accountName;
     }
 
     @Override
@@ -49,9 +49,9 @@ public abstract class AbstractAccount implements InterfaceAccount {
 
     @Override
     public String toString() {
-        return "AbstractAccont{" +
+        return "AbstractAccount{" +
                 "id=" + id +
-                ", accontName='" + accontName + '\'' +
+                ", accountName='" + accountName + '\'' +
                 ", balance=" + balance +
                 '}';
     }
@@ -64,12 +64,12 @@ public abstract class AbstractAccount implements InterfaceAccount {
         this.id = id;
     }
 
-    public String getAccontName() {
-        return accontName;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setAccontName(String accontName) {
-        this.accontName = accontName;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public void setBalance(BigDecimal balance) {

@@ -1,5 +1,6 @@
 package org.example.domain.models;
 
+import org.example.domain.enums.TransactionStatus;
 import org.example.domain.enums.TransactionType;
 
 import java.math.BigDecimal;
@@ -8,16 +9,16 @@ import java.util.Objects;
 
 public abstract class AbstractTransaction {
     protected Integer id;
-    protected BigDecimal transacrionValue;
-    protected String descripion;
+    protected BigDecimal transactionValue;
+    protected String description;
     protected Date date;
-    protected String status;
+    protected TransactionStatus status;
     protected TransactionType type;
     protected AbstractAccount account;
 
-    public AbstractTransaction(BigDecimal transacrionValue, String descripion, Date date, String status, TransactionType type, AbstractAccount account) {
-        this.transacrionValue = transacrionValue;
-        this.descripion = descripion;
+    public AbstractTransaction(BigDecimal transactionValue, String description, Date date, TransactionStatus status, TransactionType type, AbstractAccount account) {
+        this.transactionValue = transactionValue;
+        this.description = description;
         this.date = date;
         this.status = status;
         this.type = type;
@@ -40,8 +41,8 @@ public abstract class AbstractTransaction {
     public String toString() {
         return "AbstractTransaction{" +
                 "id=" + id +
-                ", transacrionValue=" + transacrionValue +
-                ", descripion='" + descripion + '\'' +
+                ", transactionValue=" + transactionValue +
+                ", description='" + description + '\'' +
                 ", date=" + date +
                 ", status='" + status + '\'' +
                 ", type=" + type +
@@ -56,20 +57,20 @@ public abstract class AbstractTransaction {
         this.id = id;
     }
 
-    public BigDecimal getTransacrionValue() {
-        return transacrionValue;
+    public BigDecimal getTransactionValue() {
+        return transactionValue;
     }
 
-    public void setTransacrionValue(BigDecimal transacrionValue) {
-        this.transacrionValue = transacrionValue;
+    public void setTransactionValue(BigDecimal transactionValue) {
+        this.transactionValue = transactionValue;
     }
 
-    public String getDescripion() {
-        return descripion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripion(String descripion) {
-        this.descripion = descripion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getDate() {
@@ -80,11 +81,11 @@ public abstract class AbstractTransaction {
         this.date = date;
     }
 
-    public String getStatus() {
+    public TransactionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TransactionStatus status) {
         this.status = status;
     }
 
