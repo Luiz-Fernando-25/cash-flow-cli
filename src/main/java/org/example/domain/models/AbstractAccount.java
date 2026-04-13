@@ -1,5 +1,6 @@
 package org.example.domain.models;
 
+import org.example.domain.enums.AccountType;
 import org.example.domain.interfaces.Account;
 
 import java.math.BigDecimal;
@@ -9,6 +10,15 @@ public abstract class AbstractAccount implements Account {
     protected Integer id;
     protected String accountName;
     protected BigDecimal balance = BigDecimal.ZERO;
+    protected AccountType type;
+
+
+    
+    public AbstractAccount(Integer id, String accountName, BigDecimal balance) {
+        this.id = id;
+        this.accountName = accountName;
+        this.balance = balance;
+    }
 
     public AbstractAccount(String accountName) {
         this.accountName = accountName;
@@ -26,11 +36,7 @@ public abstract class AbstractAccount implements Account {
         return Objects.hashCode(getId());
     }
 
-    @Override
-    public BigDecimal getBalance(){
-        return this.balance;
-    }
-
+    
     @Override
     public void deposit(BigDecimal value) {
         if (value == null || value.compareTo(BigDecimal.ZERO) <= 0) {
@@ -38,7 +44,7 @@ public abstract class AbstractAccount implements Account {
         }
         this.balance = this.balance.add(value);
     }
-
+    
     @Override
     public void withdraw(BigDecimal value) {
         if (value == null || value.compareTo(this.balance) <= 0) {
@@ -46,33 +52,44 @@ public abstract class AbstractAccount implements Account {
         }
         this.balance = this.balance.subtract(value);
     }
+    
+    
+ 
 
     @Override
     public String toString() {
-        return "AbstractAccount{" +
-                "id=" + id +
-                ", accountName='" + accountName + '\'' +
-                ", balance=" + balance +
-                '}';
+        return "AbstractAccount [id=" + id + ", accountName=" + accountName + ", balance=" + balance + ", type=" + type
+                + "]";
     }
 
     public Integer getId() {
         return id;
     }
-
+    
     public void setId(Integer id) {
         this.id = id;
     }
-
+    
     public String getAccountName() {
         return accountName;
     }
-
+    
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
 
+    @Override
+    public BigDecimal getBalance(){
+        return this.balance;
+    }
+    
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
+    public AccountType getType() {
+        return type;
+    }
+    
+
 }

@@ -1,7 +1,6 @@
 package org.example.domain.models;
 
 import org.example.domain.enums.CategoryType;
-import org.example.domain.enums.TransactionType;
 
 import java.util.Objects;
 

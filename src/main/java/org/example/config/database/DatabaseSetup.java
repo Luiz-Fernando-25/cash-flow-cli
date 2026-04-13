@@ -12,7 +12,7 @@ public class DatabaseSetup {
             CREATE TABLE IF NOT EXISTS conta (
             id INT AUTO_INCREMENT PRIMARY KEY,
             nome VARCHAR(100) NOT NULL,
-            saldo_Atual DECIMAL(10,2) DEFAULT 0.00,
+            saldo_atual DECIMAL(10,2) DEFAULT 0.00,
             tipo_conta VARCHAR(20) NOT NULL
             );
 
