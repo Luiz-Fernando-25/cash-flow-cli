@@ -14,16 +14,13 @@ import org.example.domain.models.AccountBank;
 import org.example.domain.models.AccountWallet;
 
 public class AccountRepositoryH2Impl implements AccountRepository {
-
-    private String sql;
-
     
     
     @Override
     public void save(AbstractAccount account) {        
-        sql = "INSERT INTO conta (nome, saldo_atual, tipo_conta) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO conta (nome, saldo_atual, tipo_conta) VALUES (?, ?, ?)";
         try (Connection conn = ConnectionFactory.getConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql)) {
+        PreparedStatement stmt = conn.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, account.getAccountName());
             stmt.setBigDecimal(2, account.getBalance());
@@ -45,7 +42,7 @@ public class AccountRepositoryH2Impl implements AccountRepository {
 
     @Override
     public Optional<AbstractAccount> findById(Integer id) {
-        sql = "SELECT * FROM conta WHERE id = ?";
+        String sql = "SELECT * FROM conta WHERE id = ?";
 
         try (Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -55,13 +52,11 @@ public class AccountRepositoryH2Impl implements AccountRepository {
                 if (rs.next()) {
                     AbstractAccount account;
                     if ("BANCO".equals(rs.getString("tipo_conta"))) {
-                        account = new AccountBank(rs.getString("nome"));
+                        account = new AccountBank(id, rs.getString("nome"), rs.getBigDecimal("saldo_atual"));
                     } else {
-                        account = new AccountWallet(rs.getString("nome"));
+                        account = new AccountWallet(id, rs.getString("nome"), rs.getBigDecimal("saldo_atual"));
                     };
-                    account.setId(rs.getInt("id"));
-                    account.setBalance(rs.getBigDecimal("saldo_atual"));
-
+                    
                     return Optional.of(account);
                 }
             }            
@@ -74,7 +69,7 @@ public class AccountRepositoryH2Impl implements AccountRepository {
     
     @Override
     public List<AbstractAccount> findAll() {
-        sql = "SELECT * FROM conta";
+        String sql = "SELECT * FROM conta";
         
         try(Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -98,7 +93,7 @@ public class AccountRepositoryH2Impl implements AccountRepository {
 
     @Override
     public void update(AbstractAccount account) {
-        sql = "UPDATE conta SET nome = ?, saldo_atual = ? , tipo_conta = ? WHERE id = ? ";
+        String sql = "UPDATE conta SET nome = ?, saldo_atual = ?, tipo_conta = ? WHERE id = ? ";
 
         try (Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -119,7 +114,7 @@ public class AccountRepositoryH2Impl implements AccountRepository {
     
     @Override
     public void delete(Integer id) {
-        sql = "DELETE FROM conta WHERE id = ?";
+        String sql = "DELETE FROM conta WHERE id = ?";
 
         try (Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql)) {

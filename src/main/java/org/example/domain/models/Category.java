@@ -9,6 +9,12 @@ public class Category {
     private String name;
     private CategoryType type;
 
+    public Category(Integer id, String name, CategoryType type) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+    }
+    
     public Category(String name, CategoryType type) {
         this.name = name;
         this.type = type;

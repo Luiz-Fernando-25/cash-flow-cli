@@ -11,6 +11,15 @@ public class CreditCard {
     private int dueDate;
     private AccountBank bank;
 
+    
+    public CreditCard(Integer id, String name, BigDecimal limit, int closingDay, int dueDate, AccountBank bank) {
+        this.id = id;
+        this.name = name;
+        this.limit = limit;
+        this.closingDay = closingDay;
+        this.dueDate = dueDate;
+        this.bank = bank;
+    }
 
     public CreditCard(String name, AccountBank bank) {
         this.name = name;
