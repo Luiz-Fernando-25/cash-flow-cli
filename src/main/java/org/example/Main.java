@@ -47,10 +47,6 @@ public class Main {
         for (AbstractAccount obj : teste2) {
             System.out.println(obj);
         }
-
-
-
-
     }
 
 }
