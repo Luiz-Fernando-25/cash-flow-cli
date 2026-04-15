@@ -13,14 +13,30 @@ public abstract class AbstractTransaction {
     protected String description;
     protected Date date;
     protected TransactionStatus status;
+    protected Category category;
     protected TransactionType type;
     protected AbstractAccount account;
 
-    public AbstractTransaction(BigDecimal transactionValue, String description, Date date, TransactionStatus status, TransactionType type, AbstractAccount account) {
+    
+
+    public AbstractTransaction(BigDecimal transactionValue, String description, Date date, TransactionStatus status,
+            Category category, TransactionType type, AbstractAccount account) {
         this.transactionValue = transactionValue;
         this.description = description;
         this.date = date;
         this.status = status;
+        this.category = category;
+        this.type = type;
+        this.account = account;
+    }
+
+    public AbstractTransaction(Integer id, BigDecimal transactionValue, String description, Date date, TransactionStatus status, Category category, TransactionType type, AbstractAccount account) {
+        this.id = id;
+        this.transactionValue = transactionValue;
+        this.description = description;
+        this.date = date;
+        this.status = status;
+        this.category = category;
         this.type = type;
         this.account = account;
     }
@@ -37,16 +53,13 @@ public abstract class AbstractTransaction {
         return Objects.hashCode(getId());
     }
 
+
+
     @Override
     public String toString() {
-        return "AbstractTransaction{" +
-                "id=" + id +
-                ", transactionValue=" + transactionValue +
-                ", description='" + description + '\'' +
-                ", date=" + date +
-                ", status='" + status + '\'' +
-                ", type=" + type +
-                '}';
+        return "AbstractTransaction [id=" + id + ", transactionValue=" + transactionValue + ", description="
+                + description + ", date=" + date + ", status=" + status + ", category=" + category + ", type=" + type
+                + ", account=" + account + "]";
     }
 
     public Integer getId() {
@@ -96,4 +109,22 @@ public abstract class AbstractTransaction {
     public void setType(TransactionType type) {
         this.type = type;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public AbstractAccount getAccount() {
+        return account;
+    }
+
+    public void setAccount(AbstractAccount account) {
+        this.account = account;
+    }
+
+    
 }

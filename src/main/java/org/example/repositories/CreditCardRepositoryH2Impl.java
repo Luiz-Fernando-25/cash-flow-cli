@@ -97,15 +97,16 @@ public class CreditCardRepositoryH2Impl implements CreditCardRepository{
         
             while (rs.next()) {
                 AccountBank bankCard;
-                if (bankInMemory.containsKey(rs.getInt("conta_id"))) {
-                    bankCard = bankInMemory.get(rs.getInt("conta_id"));
+                int accountId = rs.getInt("conta_id");
+                if (bankInMemory.containsKey(accountId)) {
+                    bankCard = bankInMemory.get(accountId);
                 } else {
-                    AbstractAccount account = this.repoAccount.findById(rs.getInt("conta_id")).orElseThrow(
+                    AbstractAccount account = this.repoAccount.findById(accountId).orElseThrow(
                         () -> new RuntimeException("Conta não encontrada!")
                     );
                     if (account instanceof AccountBank){
                         bankCard = (AccountBank) account;
-                        bankInMemory.put(rs.getInt("conta_id"), bankCard);
+                        bankInMemory.put(accountId, bankCard);
                     } else {
                         throw new RuntimeException("O ID informado não pertence a um Banco!");
                     }
@@ -153,7 +154,7 @@ public class CreditCardRepositoryH2Impl implements CreditCardRepository{
 
             stmt.executeUpdate();
             
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro crítico ao criar conexão com banco de dados.", e);
         }

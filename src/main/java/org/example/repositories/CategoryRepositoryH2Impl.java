@@ -24,7 +24,7 @@ public class CategoryRepositoryH2Impl implements CategoryRepository {
             stmt.setString(1, category.getName());
             stmt.setString(2, category.getType().name());
 
-            stmt.executeLargeUpdate();
+            stmt.executeUpdate();
 
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()){
                 if (generatedKeys.next()){

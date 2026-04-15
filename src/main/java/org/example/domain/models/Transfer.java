@@ -7,6 +7,13 @@ public class Transfer {
     private AbstractTransaction outputTransaction;
     private AbstractTransaction inputTransaction;
 
+    
+    public Transfer(Integer id, AbstractTransaction outputTransaction, AbstractTransaction inputTransaction) {
+        this.id = id;
+        this.outputTransaction = outputTransaction;
+        this.inputTransaction = inputTransaction;
+    }
+
     public Transfer(AbstractTransaction outputTransaction, AbstractTransaction inputTransaction) {
         this.outputTransaction = outputTransaction;
         this.inputTransaction = inputTransaction;
