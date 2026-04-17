@@ -7,19 +7,34 @@ public class CreditCard {
     private Integer id;
     private String name;
     private BigDecimal limit;
+    private BigDecimal balance; 
     private int closingDay;
     private int dueDate;
     private AccountBank bank;
 
     
-    public CreditCard(Integer id, String name, BigDecimal limit, int closingDay, int dueDate, AccountBank bank) {
+    public CreditCard(Integer id, String name, BigDecimal limit, BigDecimal balance, int closingDay, int dueDate, AccountBank bank) {
         this.id = id;
         this.name = name;
         this.limit = limit;
         this.closingDay = closingDay;
+        this.balance = balance;
         this.dueDate = dueDate;
         this.bank = bank;
     }
+
+    
+
+    public CreditCard(String name, BigDecimal limit, BigDecimal balance, int closingDay, int dueDate, AccountBank bank) {
+        this.name = name;
+        this.limit = limit;
+        this.balance = balance;
+        this.closingDay = closingDay;
+        this.dueDate = dueDate;
+        this.bank = bank;
+    }
+
+
 
     public CreditCard(String name, AccountBank bank) {
         this.name = name;
@@ -40,14 +55,8 @@ public class CreditCard {
 
     @Override
     public String toString() {
-        return "CreditCard{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", limit=" + limit +
-                ", closingDay=" + closingDay +
-                ", dueDate=" + dueDate +
-                ", bank=" + bank +
-                '}';
+        return "CreditCard [id=" + id + ", name=" + name + ", limit=" + limit + ", balance=" + balance + ", closingDay="
+                + closingDay + ", dueDate=" + dueDate + ", bank=" + bank + "]";
     }
 
     public Integer getId() {
@@ -96,5 +105,13 @@ public class CreditCard {
 
     public void setBank(AccountBank bank) {
         this.bank = bank;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 }

@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 public class DatabaseSetup {
 
-    public  static void initialize() {
+    public static void initialize() {
 
     String sql = """
             CREATE TABLE IF NOT EXISTS conta (
@@ -20,6 +20,7 @@ public class DatabaseSetup {
             id INT AUTO_INCREMENT PRIMARY KEY,
             nome VARCHAR(100) NOT NULL,
             limite DECIMAL(10,2) DEFAULT 0.00,
+            saldo DECIMAL(10,2) DEFAULT 0.00,
             dia_fechamento INT NOT NULL,
             dia_vencimento INT NOT NULL,
             conta_id INT NOT NULL,
@@ -42,7 +43,7 @@ public class DatabaseSetup {
             tipo_transacao VARCHAR(50) NOT NULL,
             conta_id INT NOT NULL,
             cartao_id INT,
-            data_compra DATE,
+            data_vencimento DATE,
             FOREIGN KEY (conta_id) REFERENCES conta(id),
             FOREIGN KEY (categoria_id) REFERENCES categoria(id),
             FOREIGN KEY (cartao_id) REFERENCES cartaocredito(id)
@@ -56,6 +57,40 @@ public class DatabaseSetup {
             FOREIGN KEY (saida_id) REFERENCES transacao(id)
             );
             """;
+    try (Connection conn = ConnectionFactory.getConnection();
+    Statement stmt = conn.createStatement()) {
+        stmt.execute(sql);
+        System.out.println("Estabelecida conexão com banco de dados");
+    } catch (SQLException e) {
+        throw new RuntimeException("Erro crítico ao criar conexão com banco de dados.", e);
+    }
+    }
+
+    public static void dropDB(){
+        String sql = "DROP ALL OBJECTS";
+
+    try (Connection conn = ConnectionFactory.getConnection();
+        Statement stmt = conn.createStatement()) {
+        stmt.execute(sql);
+        System.out.println("Estabelecida conexão com banco de dados");
+    } catch (SQLException e) {
+        throw new RuntimeException("Erro crítico ao criar conexão com banco de dados.", e);
+    }   
+    }
+
+    public static void clearDB(){
+        String sql = """
+                SET REFERENTIAL_INTEGRITY FALSE;
+                
+                TRUNCATE TABLE conta RESTART IDENTIFY;
+                TRUNCATE TABLE cartaocredito RESTART IDENTIFY;
+                TRUNCATE TABLE categoria RESTART IDENTIFY;
+                TRUNCATE TABLE transacao RESTART IDENTIFY;
+                TRUNCATE TABLE movimentacao RESTART IDENTIFY;
+                
+                SET REFERENTIAL_INTEGRITY TRUE;
+                """;
+
     try (Connection conn = ConnectionFactory.getConnection();
     Statement stmt = conn.createStatement()) {
         stmt.execute(sql);

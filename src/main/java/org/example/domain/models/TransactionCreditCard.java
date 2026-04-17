@@ -9,30 +9,30 @@ import java.util.Date;
 public class TransactionCreditCard extends TransactionOutput{
 
     private CreditCard creditCard;
-    private Date buyDate;
+    private Date dueDate;
     
     
 
     public TransactionCreditCard(BigDecimal transactionValue, String description, Date date, TransactionStatus status,
-            Category category, TransactionType type, AbstractAccount account, CreditCard creditCard, Date buyDate) {
+            Category category, TransactionType type, AbstractAccount account, CreditCard creditCard, Date dueDate) {
         super(transactionValue, description, date, status, category, type, account);
         this.creditCard = creditCard;
-        this.buyDate = buyDate;
+        this.dueDate = dueDate;
     }
 
 
     public TransactionCreditCard(Integer id, BigDecimal transactionValue, String description, Date date, TransactionStatus status,
-            Category category, TransactionType type, AbstractAccount account, CreditCard creditCard, Date buyDate) {
+            Category category, TransactionType type, AbstractAccount account, CreditCard creditCard, Date dueDate) {
         super(id, transactionValue, description, date, status, category, type, account);
         this.creditCard = creditCard;
-        this.buyDate = buyDate;
+        this.dueDate = dueDate;
     }
 
     
 
     @Override
     public String toString() {
-        return "TransactionCreditCard [creditCard=" + creditCard + ", id=" + id + ", buyDate=" + buyDate
+        return "TransactionCreditCard [creditCard=" + creditCard + ", id=" + id + ", dueDate=" + dueDate
                 + ", transactionValue=" + transactionValue + ", description=" + description + ", date=" + date
                 + ", status=" + status + ", category=" + category + ", type=" + type + ", account=" + account + "]";
     }
@@ -47,12 +47,12 @@ public class TransactionCreditCard extends TransactionOutput{
         this.creditCard = creditCard;
     }
 
-    public Date getBuyDate() {
-        return buyDate;
+    public Date getDueDate() {
+        return dueDate;
     }
 
-    public void setBuyDate(Date buyDate) {
-        this.buyDate = buyDate;
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 
     

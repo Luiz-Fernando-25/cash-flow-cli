@@ -40,7 +40,7 @@ public class TransactionRepositoryH2Impl implements TransactionRepository {
 
     @Override
     public void save(AbstractTransaction transaction) {
-        String sql = "INSERT INTO transacao (valor, descricao, data, status, categoria_id, tipo_transacao, conta_id, cartao_id, data_compra) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO transacao (valor, descricao, data, status, categoria_id, tipo_transacao, conta_id, cartao_id, data_vencimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
@@ -55,7 +55,7 @@ public class TransactionRepositoryH2Impl implements TransactionRepository {
             if (transaction instanceof TransactionCreditCard) {
                 TransactionCreditCard tcc = (TransactionCreditCard) transaction;
                 stmt.setInt(8, tcc.getCreditCard().getId());
-                stmt.setDate(9, new java.sql.Date(tcc.getBuyDate().getTime()));
+                stmt.setDate(9, new java.sql.Date(tcc.getDueDate().getTime()));
             } else {
                 stmt.setNull(8, java.sql.Types.INTEGER);
                 stmt.setNull(9, java.sql.Types.DATE);
@@ -99,7 +99,7 @@ public class TransactionRepositoryH2Impl implements TransactionRepository {
                         CreditCard creditCard = this.repoCreditCard.findById(creditCardId).orElseThrow(
                             () -> new RuntimeException("Cartão de credito não encontrado!")
                         );
-                        transaction = new TransactionCreditCard(id, rs.getBigDecimal("valor"), rs.getString("descricao"), rs.getDate("data"), TransactionStatus.valueOf(rs.getString("status")), category, TransactionType.valueOf(rs.getString("tipo_transacao")), account, creditCard, rs.getDate("data_compra"));
+                        transaction = new TransactionCreditCard(id, rs.getBigDecimal("valor"), rs.getString("descricao"), rs.getDate("data"), TransactionStatus.valueOf(rs.getString("status")), category, TransactionType.valueOf(rs.getString("tipo_transacao")), account, creditCard, rs.getDate("data_vencimento"));
                     } else {
                         TransactionType type = TransactionType.valueOf(rs.getString("tipo_transacao"));
 
@@ -165,7 +165,7 @@ public class TransactionRepositoryH2Impl implements TransactionRepository {
                         );
                         cardInMemory.put(creditCardId, creditCard);
                     }
-                    transaction.add(new TransactionCreditCard(rs.getInt("id"), rs.getBigDecimal("valor"), rs.getString("descricao"), rs.getDate("data"), TransactionStatus.valueOf(rs.getString("status")), category, TransactionType.valueOf(rs.getString("tipo_transacao")), account, creditCard, rs.getDate("data_compra")));
+                    transaction.add(new TransactionCreditCard(rs.getInt("id"), rs.getBigDecimal("valor"), rs.getString("descricao"), rs.getDate("data"), TransactionStatus.valueOf(rs.getString("status")), category, TransactionType.valueOf(rs.getString("tipo_transacao")), account, creditCard, rs.getDate("data_vencimento")));
                 } else {
                     TransactionType type = TransactionType.valueOf(rs.getString("tipo_transacao"));
 
@@ -191,7 +191,7 @@ public class TransactionRepositoryH2Impl implements TransactionRepository {
 
     @Override
     public void update(AbstractTransaction transaction) {
-        String sql = "UPDATE transacao SET valor = ?, descricao = ?, data = ?, status = ?, categoria_id = ?, tipo_transacao = ?, conta_id = ?, cartao_id = ?, data_compra = ? WHERE id = ?";
+        String sql = "UPDATE transacao SET valor = ?, descricao = ?, data = ?, status = ?, categoria_id = ?, tipo_transacao = ?, conta_id = ?, cartao_id = ?, data_vencimento = ? WHERE id = ?";
 
         try (Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -206,7 +206,7 @@ public class TransactionRepositoryH2Impl implements TransactionRepository {
             if (transaction instanceof TransactionCreditCard) {
                 TransactionCreditCard tcc = (TransactionCreditCard) transaction;
                 stmt.setInt(8, tcc.getCreditCard().getId());
-                stmt.setDate(9, new java.sql.Date(tcc.getBuyDate().getTime()));
+                stmt.setDate(9, new java.sql.Date(tcc.getDueDate().getTime()));
             } else {
                 stmt.setNull(8, java.sql.Types.INTEGER);
                 stmt.setNull(9, java.sql.Types.DATE);

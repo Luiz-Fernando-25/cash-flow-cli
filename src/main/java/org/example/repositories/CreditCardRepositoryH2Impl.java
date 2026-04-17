@@ -27,15 +27,16 @@ public class CreditCardRepositoryH2Impl implements CreditCardRepository{
 
     @Override
     public void save(CreditCard creditCard) {
-        String sql = "INSERT INTO cartaocredito (nome, limite, dia_fechamento, dia_vencimento, conta_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cartaocredito (nome, limite, saldo, dia_fechamento, dia_vencimento, conta_id) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
             
             stmt.setString(1, creditCard.getName());
             stmt.setBigDecimal(2, creditCard.getLimit());
-            stmt.setInt(3, creditCard.getClosingDay());
-            stmt.setInt(4, creditCard.getDueDate());
-            stmt.setInt(5, creditCard.getBank().getId());
+            stmt.setBigDecimal(3, creditCard.getLimit());
+            stmt.setInt(4, creditCard.getClosingDay());
+            stmt.setInt(5, creditCard.getDueDate());
+            stmt.setInt(6, creditCard.getBank().getId());
 
             stmt.executeUpdate();
 
@@ -73,7 +74,7 @@ public class CreditCardRepositoryH2Impl implements CreditCardRepository{
                     }
 
                     CreditCard creditCard;
-                    creditCard = new CreditCard(id, rs.getString("nome"), rs.getBigDecimal("limite"), rs.getInt("dia_fechamento"), rs.getInt("dia_vencimento"), bank);
+                    creditCard = new CreditCard(id, rs.getString("nome"), rs.getBigDecimal("limite"), rs.getBigDecimal("saldo"), rs.getInt("dia_fechamento"), rs.getInt("dia_vencimento"), bank);
 
                     return Optional.of(creditCard);
                 }
@@ -111,7 +112,7 @@ public class CreditCardRepositoryH2Impl implements CreditCardRepository{
                         throw new RuntimeException("O ID informado não pertence a um Banco!");
                     }
                 }
-                creditCard.add(new CreditCard(rs.getInt("id"), rs.getString("nome"), rs.getBigDecimal("limite"), rs.getInt("dia_fechamento"), rs.getInt("dia_vencimento"), bankCard));
+                creditCard.add(new CreditCard(rs.getInt("id"), rs.getString("nome"), rs.getBigDecimal("limite"), rs.getBigDecimal("saldo"), rs.getInt("dia_fechamento"), rs.getInt("dia_vencimento"), bankCard));
             }
 
             return creditCard;
@@ -123,17 +124,18 @@ public class CreditCardRepositoryH2Impl implements CreditCardRepository{
 
     @Override
     public void update(CreditCard creditCard) {
-        String sql = "UPDATE cartaocredito SET nome = ?, limite = ?, dia_fechamento = ?, dia_vencimento = ?, conta_id = ? WHERE id = ?";
+        String sql = "UPDATE cartaocredito SET nome = ?, limite = ?, saldo = ?, dia_fechamento = ?, dia_vencimento = ?, conta_id = ? WHERE id = ?";
 
         try (Connection conn = ConnectionFactory.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, creditCard.getName());
             stmt.setBigDecimal(2, creditCard.getLimit());
-            stmt.setInt(3, creditCard.getClosingDay());
-            stmt.setInt(4, creditCard.getDueDate());
-            stmt.setInt(5, creditCard.getBank().getId());
-            stmt.setInt(6, creditCard.getId());
+            stmt.setBigDecimal(3, creditCard.getBalance());
+            stmt.setInt(4, creditCard.getClosingDay());
+            stmt.setInt(5, creditCard.getDueDate());
+            stmt.setInt(6, creditCard.getBank().getId());
+            stmt.setInt(7, creditCard.getId());
 
             stmt.executeUpdate();
             
