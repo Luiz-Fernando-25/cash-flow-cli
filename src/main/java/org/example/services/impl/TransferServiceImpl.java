@@ -1,0 +1,76 @@
+package org.example.services.impl;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.List;
+import org.example.domain.enums.TransactionStatus;
+import org.example.domain.enums.TransactionType;
+import org.example.domain.models.AbstractAccount;
+import org.example.domain.models.AbstractTransaction;
+import org.example.domain.models.Transfer;
+import org.example.repositories.TransferRepository;
+import org.example.services.TransactionService;
+import org.example.services.TransferService;
+
+public class TransferServiceImpl implements TransferService {
+
+  private final TransferRepository repoTransfer;
+  private final TransactionService servTransaction;
+
+  public TransferServiceImpl(
+    TransferRepository repoTransfer,
+    TransactionService servTransaction
+  ) {
+    this.repoTransfer = repoTransfer;
+    this.servTransaction = servTransaction;
+  }
+
+  @Override
+  public void create(
+    BigDecimal value,
+    Date date,
+    AbstractAccount accOutput,
+    AbstractAccount accInput
+  ) {
+    AbstractTransaction transactionOutput = servTransaction.create(
+      value,
+      "Transaferencia",
+      date,
+      TransactionStatus.EFETIVADA,
+      0,
+      TransactionType.SAIDA,
+      accOutput.getId()
+    );
+    AbstractTransaction transactionInput = servTransaction.create(
+      value,
+      "Transferência",
+      date,
+      TransactionStatus.EFETIVADA,
+      0,
+      TransactionType.ENTRADA,
+      accInput.getId()
+    );
+    Transfer transfer = new Transfer(transactionOutput, transactionInput);
+    repoTransfer.save(transfer);
+  }
+
+  @Override
+  public List<Transfer> listAll() {
+    List<Transfer> transfers = repoTransfer.findAll();
+    return transfers;
+  }
+
+  @Override
+  public void remove(Integer transferId) {
+    Transfer transfer = repoTransfer
+      .findById(transferId)
+      .orElseThrow(() ->
+        new RuntimeException(
+          "Transferencia não encontrada para o ID informado."
+        )
+      );
+    servTransaction.remove(transfer.getOutputTransaction().getId());
+    servTransaction.remove(transfer.getInputTransaction().getId());
+    repoTransfer.delete(transferId);
+  }
+}

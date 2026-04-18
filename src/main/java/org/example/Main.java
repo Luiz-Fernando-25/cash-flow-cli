@@ -1,19 +1,22 @@
 package org.example;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import org.example.config.database.DatabaseSetup;
 import org.example.domain.models.AbstractAccount;
 import org.example.domain.models.AccountBank;
 import org.example.repositories.AccountRepositoryH2Impl;
 import org.h2.tools.Server;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) throws Exception {
+
+  public static void main(String[] args) throws Exception {
+    /* 
         DatabaseSetup.initialize();
 
         Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082").start();
@@ -47,6 +50,6 @@ public class Main {
         for (AbstractAccount obj : teste2) {
             System.out.println(obj);
         }
-    }
-
+ */
+  }
 }
