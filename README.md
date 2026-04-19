@@ -16,33 +16,30 @@ O sistema foi projetado para ser um clone funcional (core backend) do Mobills, f
 
 - Acesso a Dados: JDBC com Padrão Repository
 
-- Arquitetura: Camadas (Domain, Repository, Config)
+- Arquitetura: Camadas (Domain, Repository, Config, Services, UI)
 
 ## 📂 Estrutura de Pacotes
 
-A arquitetura segue uma organização clara para facilitar a manutenção e futura migração para frameworks como Spring Boot:
+A arquitetura foi desenhada utilizando os princípios de Clean Code e Inversão de Dependência, o que facilitará uma futura migração para frameworks como o Spring Boot. O projeto está dividido em:
 
-- org.example.config.database: Configurações de conexão e inicialização do banco de dados (DDL).
+- **`org.example.config.database`**: Configurações de conexão (JDBC) e scripts de inicialização do banco de dados H2 (DDL/DML).
+- **`org.example.domain`**: Contém o coração das regras de negócio.
+  - **`.models`**: Entidades de domínio (AbstractAccount, CreditCard, Transactions, etc.) utilizando herança e polimorfismo.
+  - **`.enums`**: Tipos padronizados (AccountType, TransactionStatus, etc.).
+  - **`.interfaces`**: Contratos de comportamento base (ex: operações de depósito/saque).
+- **`org.example.repositories`**: Padrão Repository para abstração do acesso aos dados, com implementações puras em SQL para o H2.
+- **`org.example.services`**: Camada de lógica de negócio e orquestração.
+  - **`.impl`**: Implementações concretas dos serviços, garantindo a matemática financeira e as regras de estorno automático.
+- **`org.example.ui`**: Componentes da Interface de Linha de Comando (CLI), organizados em Menus modulares (AccountMenu, TransactionMenu, etc.).
 
-- org.example.domain.models: Entidades de domínio (Contas, Transações, Categorias).
+## 📋 Requisitos Implementados
 
-- org.example.domain.enums: Enumeradores para tipos e status.
-
-- org.example.repositories: Implementações de persistência utilizando H2.
-
-## 📋 Requisitos Implementados (ou em Progresso)
-
-- [x] RF-01: Gestão de Contas e Carteiras: Cadastro de contas bancárias e carteiras físicas com saldo consolidado.
-
-- [x] RF-02: Gestão de Cartões de Crédito: Cadastro de cartões vinculados a bancos com controle de limites.
-
-- [x] RF-03: Gestão de Categorias: Classificação de transações por tipo (Receita/Despesa).
-
-- [x] RF-04/06: Registro de Transações: Suporte a entradas, saídas e despesas em cartão de crédito.
-
-- [ ] RF-05: Transferências: Lógica de movimentação entre contas (Saída A -> Entrada B).
-
-- [ ] RF-07: Fechamento de Fatura: Consolidação de gastos de cartão em lote.
+- [x] **RF-01: Gestão de Contas e Carteiras:** Cadastro de contas bancárias e carteiras físicas com saldo consolidado (Permite saldo negativo).
+- [x] **RF-02: Gestão de Cartões de Crédito:** Cadastro de cartões vinculados a bancos com controle de limites, dia de fechamento e vencimento.
+- [x] **RF-03: Gestão de Categorias:** Classificação de transações por tipo (Receita, Despesa, Movimentação).
+- [x] **RF-04: Registro de Transações:** Suporte a entradas e saídas normais, com alteração dinâmica de status (Pendente/Efetivada) alterando o saldo da conta em tempo real.
+- [x] **RF-05: Transferências:** Orquestração de movimentação entre duas contas distintas, com espelhamento de transações (Saída A -> Entrada B) e estorno em cascata.
+- [x] **RF-06: Despesas de Cartão:** Registro de transações vinculadas a um cartão de crédito, respeitando a data da fatura atual.
 
 ## 🔧 Como Executar
 
@@ -50,7 +47,7 @@ A arquitetura segue uma organização clara para facilitar a manutenção e futu
 
 2. Clonar o repositório:
 
-`git clone [https://github.com/luiz-fernando-25/cash-flow-cli.git](https://github.com/luiz-fernando-25/cash-flow-cli.git)`
+`git clone https://github.com/luiz-fernando-25/cash-flow-cli.git`
 
 3. Compilar o projeto:
 
@@ -58,22 +55,22 @@ A arquitetura segue uma organização clara para facilitar a manutenção e futu
 
 4. Executar a classe Main: O banco de dados H2 será criado automaticamente na pasta ./banco/.
 
-## Console H2
-
-Ao rodar a aplicação, um servidor web para o console do H2 é iniciado na porta 8082.
-
-- URL: http://localhost:8082
-
-- JDBC URL: jdbc:h2:./banco/cashflow
-
-- User: sa | Password: (vazio)
-
 ## 🏗️ Próximos Passos (Roadmap)
 
-- Implementar o serviço de lógica de negócios para automatizar o espelhamento de transferências (RF-05).
+- [ ] Fechamento de Faturas: Desenvolver a rotina de consolidação de gastos de cartão de crédito baseada no dia de vencimento.
 
-- Desenvolver a rotina de fechamento de faturas baseada no dia de vencimento (RF-07).
+- [ ] Migração Web: Migrar o núcleo da aplicação para Spring Boot, substituindo a interface CLI por uma exposição de API REST.
 
-- Migração para Spring Boot para exposição de uma API REST.
+- [ ] Dockerização: Criar um Dockerfile e docker-compose para facilitar a execução de todo o ambiente.
 
-Este projeto é parte de um estudo de arquitetura backend e modelagem de dados ORM manual.
+### 🧪 Testes Automatizados (`src/test/java`)
+
+O projeto conta com uma robusta suíte de testes unitários e de integração utilizando **JUnit 5**, cobrindo 100% dos fluxos principais (Caminho Feliz e Exceções) da camada de `Services`. O banco H2 é recriado de forma isolada a cada execução.
+
+---
+
+## 🤖 Sobre o Desenvolvimento
+
+Este projeto é parte de um estudo aprofundado de arquitetura backend, Orientação a Objetos avançada e modelagem de dados ORM manual (sem o uso de frameworks como Hibernate).
+
+Nota de Transparência: Ferramentas de Inteligência Artificial Generativa (Pair Programming) foram utilizadas durante o desenvolvimento com o objetivo exclusivo de gerar boilerplate code (código repetitivo), formatar e estruturar a suíte de testes (Arrange, Act, Assert) e agilizar a criação dos menus da CLI. Toda a arquitetura do sistema, design de banco de dados, regras de negócios e lógica transacional foram concebidas e direcionadas manualmente.
