@@ -179,19 +179,19 @@ public class AccountServiceImplTest {
 
   @Test
   void shouldListAllAccounts() {
-    assertEquals(0, accountService.listAll().size());
+    assertEquals(0, accountService.searchAccounts(null).size());
     accountService.create("Conta 1", AccountType.BANCO);
     accountService.create("Conta 2", AccountType.CARTEIRA);
-    assertEquals(2, accountService.listAll().size());
+    assertEquals(2, accountService.searchAccounts(null).size());
   }
 
   @Test
   void shouldRemoveAccountSuccessfully() {
     Integer idConta = criarContaPadrao();
-    assertEquals(1, accountService.listAll().size());
+    assertEquals(1, accountService.searchAccounts(null).size());
 
     accountService.remove(idConta);
-    assertEquals(0, accountService.listAll().size());
+    assertEquals(0, accountService.searchAccounts(null).size());
   }
 
   @Test

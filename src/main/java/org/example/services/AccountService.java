@@ -14,7 +14,7 @@ public interface AccountService {
 
   void withdraw(Integer accountId, BigDecimal value);
 
-  List<AbstractAccount> listAll();
+  List<AbstractAccount> searchAccounts(AccountType accountType);
 
   void remove(Integer accountId);
 }

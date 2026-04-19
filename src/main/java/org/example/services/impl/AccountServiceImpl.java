@@ -77,9 +77,12 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public List<AbstractAccount> listAll() {
-    List<AbstractAccount> accounts = repoAccount.findAll();
-    return accounts;
+  public List<AbstractAccount> searchAccounts(AccountType accountType) {
+    return repoAccount
+      .findAll()
+      .stream()
+      .filter(a -> accountType == null || a.getType().equals(accountType))
+      .toList();
   }
 
   @Override

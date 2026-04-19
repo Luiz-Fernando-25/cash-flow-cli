@@ -222,8 +222,8 @@ public class TransactionServiceImpl implements TransactionService {
       changeStatus(transactionId, TransactionStatus.EFETIVADA);
     } else {
       transaction.setTransactionValue(value);
+      repoTransaction.update(transaction);
     }
-    repoTransaction.update(transaction);
   }
 
   @Override
