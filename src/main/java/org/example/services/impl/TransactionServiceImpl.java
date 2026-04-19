@@ -217,11 +217,13 @@ public class TransactionServiceImpl implements TransactionService {
     if (transaction.getStatus() == TransactionStatus.EFETIVADA) {
       changeStatus(transactionId, TransactionStatus.PENDENTE);
       transaction.setTransactionValue(value);
+      transaction.setStatus(TransactionStatus.PENDENTE);
+      repoTransaction.update(transaction);
       changeStatus(transactionId, TransactionStatus.EFETIVADA);
     } else {
       transaction.setTransactionValue(value);
     }
-    repoTransaction.save(transaction);
+    repoTransaction.update(transaction);
   }
 
   @Override
@@ -234,7 +236,7 @@ public class TransactionServiceImpl implements TransactionService {
     ) throw new RuntimeException("A descrição tem que ter um valor valido!");
 
     transaction.setDescription(description);
-    repoTransaction.save(transaction);
+    repoTransaction.update(transaction);
   }
 
   @Override
@@ -244,7 +246,7 @@ public class TransactionServiceImpl implements TransactionService {
       .orElseThrow(() -> new RuntimeException("O id de transação é invalido"));
     if (date == null) date = new Date();
     transaction.setDate(date);
-    repoTransaction.save(transaction);
+    repoTransaction.update(transaction);
   }
 
   @Override
@@ -279,7 +281,7 @@ public class TransactionServiceImpl implements TransactionService {
       }
     }
     transaction.setStatus(status);
-    repoTransaction.save(transaction);
+    repoTransaction.update(transaction);
   }
 
   @Override
@@ -289,7 +291,7 @@ public class TransactionServiceImpl implements TransactionService {
       .orElseThrow(() -> new RuntimeException("O id de transação é invalido"));
     Category category = validateCategory(categoryId);
     transaction.setCategory(category);
-    repoTransaction.save(transaction);
+    repoTransaction.update(transaction);
   }
 
   @Override
@@ -299,7 +301,7 @@ public class TransactionServiceImpl implements TransactionService {
       .orElseThrow(() -> new RuntimeException("O id de transação é invalido"));
     AbstractAccount account = validateAccount(accountId);
     transaction.setAccount(account);
-    repoTransaction.save(transaction);
+    repoTransaction.update(transaction);
   }
 
   @Override
@@ -310,7 +312,7 @@ public class TransactionServiceImpl implements TransactionService {
     CreditCard creditCard = validateCreditCard(creditCardId);
     if (transaction instanceof TransactionCreditCard transactionCreditCard) {
       transactionCreditCard.setCreditCard(creditCard);
-      repoTransaction.save(transactionCreditCard);
+      repoTransaction.update(transactionCreditCard);
     }
   }
 
@@ -321,7 +323,7 @@ public class TransactionServiceImpl implements TransactionService {
       .orElseThrow(() -> new RuntimeException("O id de transação é invalido"));
     if (transaction instanceof TransactionCreditCard transactionCreditCard) {
       transactionCreditCard.setDueDate(dateBuy);
-      repoTransaction.save(transactionCreditCard);
+      repoTransaction.update(transactionCreditCard);
     }
   }
 

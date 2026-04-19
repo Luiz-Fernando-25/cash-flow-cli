@@ -1,7 +1,7 @@
 package org.example.services.impl;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import org.example.domain.enums.TransactionStatus;
 import org.example.domain.enums.TransactionType;
@@ -28,25 +28,25 @@ public class TransferServiceImpl implements TransferService {
   @Override
   public void create(
     BigDecimal value,
-    Date date,
+    Date dataHoje,
     AbstractAccount accOutput,
     AbstractAccount accInput
   ) {
     AbstractTransaction transactionOutput = servTransaction.create(
       value,
-      "Transaferencia",
-      date,
+      "Transferência",
+      dataHoje,
       TransactionStatus.EFETIVADA,
-      0,
+      1,
       TransactionType.SAIDA,
       accOutput.getId()
     );
     AbstractTransaction transactionInput = servTransaction.create(
       value,
       "Transferência",
-      date,
+      dataHoje,
       TransactionStatus.EFETIVADA,
-      0,
+      1,
       TransactionType.ENTRADA,
       accInput.getId()
     );
